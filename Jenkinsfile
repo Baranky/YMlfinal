@@ -18,7 +18,7 @@ pipeline {
                     bat """
                     docker stop demo-container
                     IF %ERRORLEVEL% NEQ 0 (
-                        echo Container stop edilemedi veya zaten yok
+                        echo Container durdurulamadı veya zaten yok
                     )
                     docker rm demo-container
                     IF %ERRORLEVEL% NEQ 0 (
