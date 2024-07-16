@@ -4,10 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // GitHub'dan kodları checkout et
-                checkout scmGit(
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[url: 'https://github.com/Baranky/YMlfinal.git']]
-                )
+                git branch: 'main', url: 'https://github.com/Baranky/YMlfinal.git'
             }
         }
 
@@ -15,16 +12,8 @@ pipeline {
             steps {
                 script {
                     // Varolan container'ı durdur ve sil
-                    bat """
-                    docker stop demo-container
-                    IF %ERRORLEVEL% NEQ 0 (
-                        echo Container durdurulamadı veya zaten yok
-                    )
-                    docker rm demo-container
-                    IF %ERRORLEVEL% NEQ 0 (
-                        echo Container silinemedi veya zaten yok
-                    )
-                    """
+                    bat 'docker stop demo-container || exit 0'
+                    bat 'docker rm demo-container || exit 0'
                 }
             }
         }
@@ -33,7 +22,7 @@ pipeline {
             steps {
                 script {
                     // Docker image'ını oluştur
-                    docker.build("demo/app:${env.BUILD_NUMBER}")
+                    bat 'docker build -t demo/app:%BUILD_NUMBER% build/web'
                 }
             }
         }
@@ -42,10 +31,9 @@ pipeline {
             steps {
                 script {
                     // Docker container'ı çalıştır
-                    docker.image("demo/app:${env.BUILD_NUMBER}").run("-d -p 9090:8080 --name demo-container")
+                    bat 'docker run -d -p 9090:8080 --name demo-container demo/app:%BUILD_NUMBER%'
                 }
             }
         }
     }
 }
-
