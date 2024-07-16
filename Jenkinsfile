@@ -15,8 +15,16 @@ pipeline {
             steps {
                 script {
                     // Varolan container'ı durdur ve sil
-                    bat 'docker stop demo-container || true' // Container yoksa hatayı yoksay
-                    bat 'docker rm demo-container || true'   // Container yoksa hatayı yoksay
+                    bat """
+                    docker stop demo-container
+                    IF %ERRORLEVEL% NEQ 0 (
+                        echo Container stop edilemedi veya zaten yok
+                    )
+                    docker rm demo-container
+                    IF %ERRORLEVEL% NEQ 0 (
+                        echo Container silinemedi veya zaten yok
+                    )
+                    """
                 }
             }
         }
