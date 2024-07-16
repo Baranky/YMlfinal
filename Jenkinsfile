@@ -42,7 +42,7 @@ pipeline {
             steps {
                 script {
                     // Docker container'ı çalıştır
-                    docker.image("demo/app:${env.BUILD_NUMBER}").run("-d -p 8090:8080 --name demo-container")
+                    docker.image("demo/app:${env.BUILD_NUMBER}").run("-d -p 9090:8080 --name demo-container")
                 }
             }
         }
