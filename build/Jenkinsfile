@@ -9,7 +9,7 @@ pipeline {
             steps {
                 checkout scmGit(
                     branches: [[name: '*/main']],
-                    userRemoteConfigs: [[url: 'https://github.com/Baranky/YMlfinal.git']]
+                    userRemoteConfigs: [[url:'https://github.com/Baranky/YMlfinal.git']]
                 )
                 bat 'mvn clean install'
             }
