@@ -27,3 +27,7 @@ EXPOSE 8080 4848
 
 # GlassFish sunucusunu başlatıyoruz
 CMD ["sh", "-c", "${GLASSFISH_HOME}/bin/asadmin start-domain -v"]
+
+
+
+docker run --name my-nginx -p 80:80 -v C:\Users\Demirr\Desktop\ymg:/usr/share/nginx/html:ro -d nginx
